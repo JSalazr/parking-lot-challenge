@@ -10,6 +10,6 @@ const connection = mongoose.createConnection(`mongodb+srv://${dbConnectionInfo.u
   console.log('Connected to VehicleType DB');
 });
 
-const VehicleType = connection.model('VehicleType', vehicleTypeSchema);
+const VehicleType = connection.model('Vehicle', vehicleTypeSchema);
 
 module.exports = VehicleType;

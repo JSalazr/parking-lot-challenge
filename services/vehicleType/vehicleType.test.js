@@ -19,11 +19,16 @@ jest.mock('./dbConnection.js', () => {
   return VehicleType;
 });
 
-describe('loading vehicleType service', () => {
+describe('vehicleType service', () => {
   afterEach(() => {
     server.close();
   });
-  it('responds to /vehicleTypes', (done) => {
+  it('get /vehicleTypes', (done) => {
     request(server).get('/vehicleTypes').expect(200, done);
+  });
+  it('post /vehicleTypes', (done) => {
+    request(server).post('/vehicleTypes').send({
+      type: '123456',
+    }).expect(201, done);
   });
 });

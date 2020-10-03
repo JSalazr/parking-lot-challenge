@@ -8,10 +8,25 @@ const app = express();
 
 app.use(express.json());
 
-const VehicleType = require('./dbConnection');
+const VehicleTypeModel = require('./dbConnection');
 
 app.get('/vehicleTypes', async (req, res) => {
-  res.status(200).json(await VehicleType.find());
+  res.status(200).json(await VehicleTypeModel.find());
+});
+
+app.post('/vehicleTypes', async (req, res) => {
+  const newVehicleType = {
+    type: req.body.type,
+  };
+
+  const vehicleType = new VehicleTypeModel(newVehicleType);
+
+  try {
+    await vehicleType.save();
+  } catch (error) {
+    console.log(error);
+  }
+  res.status(201).send();
 });
 
 const server = app.listen(3001, () => {

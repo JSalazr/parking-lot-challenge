@@ -4,6 +4,7 @@ const vehicleType = new mongoose.Schema({
   type: {
     type: String,
     require: true,
+    unique: true,
   },
 });
 

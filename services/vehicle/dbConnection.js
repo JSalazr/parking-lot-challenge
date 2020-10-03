@@ -7,7 +7,7 @@ const dbConnectionInfo = {
 };
 
 const connection = mongoose.createConnection(`mongodb+srv://${dbConnectionInfo.user}:${dbConnectionInfo.password}@cluster0.awfq1.mongodb.net/myapp`, () => {
-  console.log('Connected to Vehicle DB');
+  console.log('Connected to vehicle DB');
 });
 
 const Vehicle = connection.model('Vehicle', vehicleSchema);
