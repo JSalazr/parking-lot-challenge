@@ -1,14 +1,11 @@
-const request = require("supertest");
+const request = require('supertest');
+const server = require('./index');
 
-describe("loading vehicle service", function () {
-  var server;
-  beforeEach(function () {
-    server = require("./index");
-  });
-  afterEach(function () {
+describe('loading vehicle service', () => {
+  afterEach(() => {
     server.close();
   });
-  it("responds to /vehicles", function testExport(done) {
-    request(server).get("/vehicles").expect(200, done);
+  it('responds to /vehicles', (done) => {
+    request(server).get('/vehicles').expect(200, done);
   });
 });
