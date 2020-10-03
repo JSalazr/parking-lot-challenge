@@ -1,5 +1,7 @@
+/* eslint-disable no-underscore-dangle */
 require('regenerator-runtime/runtime');
 require('core-js/stable');
+const axios = require('axios');
 
 // Express
 const express = require('express');
@@ -15,17 +17,24 @@ app.get('/vehicles', async (req, res) => {
 });
 
 app.post('/vehicles', async (req, res) => {
+  let response;
+  try {
+    response = await axios.get(`http://localhost:${process.env.VEHICLE_TYPE_PORT}/vehicleTypes/${req.body.vehicleType}`);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+
   const newVehicle = {
-    license: req.body.license,
-    type: req.body.type,
+    licensePlate: req.body.licensePlate,
+    vehicleType: response.data._id,
   };
 
-  const vehicleType = new VehicleModel(newVehicle);
+  const vehicle = new VehicleModel(newVehicle);
 
   try {
-    await vehicleType.save();
+    await vehicle.save();
   } catch (error) {
-    console.log(error);
+    res.status(400).send(error);
   }
   res.status(201).send();
 });

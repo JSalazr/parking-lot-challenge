@@ -16,9 +16,10 @@
       "/node_modules/"
     ],
     "verbose": true,
-    "testTimeout": 30000 
+    "testTimeout": 30000
   },
   "dependencies": {
+    "axios": "^0.20.0",
     "core-js": "^3.6.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
