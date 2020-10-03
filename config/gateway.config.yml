@@ -10,11 +10,16 @@ apiEndpoints:
   vehicle:
     host: localhost
     paths: ['/vehicles']
+  vehicleType:
+    host: localhost
+    paths: ['/vehicleTypes']
 serviceEndpoints:
   httpbin:
     url: 'https://httpbin.org'
   vehicleService:
     url: 'http://localhost:3000'
+  vehicleTypeService:
+    url: 'http://localhost:3001'
 policies:
   - basic-auth
   - cors
@@ -44,4 +49,14 @@ pipelines:
       - proxy:
           - action:
               serviceEndpoint: vehicleService
+              changeOrigin: 
+  vehicleTypePipeline:
+    apiEndpoints:
+      - vehicleType
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - proxy:
+          - action:
+              serviceEndpoint: vehicleTypeService
               changeOrigin: true

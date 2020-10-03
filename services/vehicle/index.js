@@ -8,15 +8,7 @@ const app = express();
 
 app.use(express.json());
 
-// Mongoose
-const mongoose = require('mongoose');
-const dbConnectionInfo = require('./DbConnectionInfo');
-require('./vehicleModel');
-
-const Vehicle = mongoose.model('Vehicle');
-mongoose.connect(`mongodb+srv://${dbConnectionInfo.user}:${dbConnectionInfo.password}@cluster0.awfq1.mongodb.net/${dbConnectionInfo.model}?retryWrites=true&w=majority`, () => {
-  console.log('Connected to Vehicle DB');
-});
+const Vehicle = require('./dbConnection');
 
 app.get('/vehicles', async (req, res) => {
   res.status(200).json(await Vehicle.find());

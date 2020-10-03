@@ -4,7 +4,7 @@ const server = require('./index');
 
 jest.mock('./dbConnection.js', () => {
   const mongoose = require('mongoose');
-  const vehicleSchema = require('./vehicleSchema');
+  const vehicleTypeSchema = require('./vehicleTypeSchema');
 
   const dbConnectionInfo = {
     user: process.env.MONGO_USER,
@@ -12,19 +12,18 @@ jest.mock('./dbConnection.js', () => {
   };
 
   const connection = mongoose.createConnection(`mongodb+srv://${dbConnectionInfo.user}:${dbConnectionInfo.password}@cluster0.awfq1.mongodb.net/myapp`, () => {
-    console.log('Connected to Vehicle DB');
+    console.log('Connected to VehicleType Test DB');
   });
 
-  const Vehicle = connection.model('Vehicle', vehicleSchema);
-
-  return Vehicle;
+  const VehicleType = connection.model('VehicleTypeTest', vehicleTypeSchema);
+  return VehicleType;
 });
 
-describe('loading vehicle service', () => {
+describe('loading vehicleType service', () => {
   afterEach(() => {
     server.close();
   });
-  it('responds to /vehicles', (done) => {
-    request(server).get('/vehicles').expect(200, done);
+  it('responds to /vehicleTypes', (done) => {
+    request(server).get('/vehicleTypes').expect(200, done);
   });
 });

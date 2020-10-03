@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 
-mongoose.model('Vehicle', {
-  licensePlate: {
+const vehicleType = new mongoose.Schema({
+  type: {
     type: String,
     require: true,
   },
 });
+
+module.exports = vehicleType;
