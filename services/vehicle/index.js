@@ -1,4 +1,6 @@
-// Load express
+import "regenerator-runtime/runtime";
+import "core-js/stable";
+
 const express = require("express");
 const app = express();
 
@@ -8,6 +10,7 @@ app.get("/vehicles", (req, res) => {
   res.sendStatus(200);
 })
 
-app.listen(3000, () => {
+const server = app.listen(3000, () => {
   console.log("Vehicles service up and running");
-})
+});
+module.exports = server;
