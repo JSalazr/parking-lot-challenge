@@ -10,13 +10,16 @@ app.use(express.json());
 
 // Mongoose
 const mongoose = require('mongoose');
+const dbConnectionInfo = require('./DbConnectionInfo');
+require('./vehicleModel');
 
-mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.awfq1.mongodb.net/${process.env.MONGO_VEHICLE}?retryWrites=true&w=majority`, () => {
+const Vehicle = mongoose.model('Vehicle');
+mongoose.connect(`mongodb+srv://${dbConnectionInfo.user}:${dbConnectionInfo.password}@cluster0.awfq1.mongodb.net/${dbConnectionInfo.model}?retryWrites=true&w=majority`, () => {
   console.log('Connected to Vehicle DB');
 });
 
-app.get('/vehicles', (req, res) => {
-  res.sendStatus(200);
+app.get('/vehicles', async (req, res) => {
+  res.status(200).json(await Vehicle.find());
 });
 
 const server = app.listen(3000, () => {
