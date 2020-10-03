@@ -1,6 +1,8 @@
 const path = require('path');
 const gateway = require('express-gateway');
-import "./services/vehicle"
+
+require('dotenv').config()
+require("./services/vehicle")
 
 gateway()
   .load(path.join(__dirname, 'config'))

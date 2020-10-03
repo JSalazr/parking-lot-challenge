@@ -1,5 +1,5 @@
-import "regenerator-runtime/runtime";
-import "core-js/stable";
+require("regenerator-runtime/runtime");
+require("core-js/stable");
 
 const express = require("express");
 const app = express();
