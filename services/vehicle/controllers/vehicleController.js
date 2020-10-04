@@ -4,6 +4,9 @@ const vehicleController = {
   getAll: async (req, res) => {
     res.status(200).json(await Vehicle.find().populate('vehicleType'));
   },
+  findOne: async (req, res) => {
+    res.status(200).json(await Vehicle.findOne({ licensePlate: req.params.licensePlate }).populate('vehicleType'));
+  },
   createVehicle: async (req, res) => {
     const newVehicle = {
       licensePlate: req.body.licensePlate,

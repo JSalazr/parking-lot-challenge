@@ -12,7 +12,7 @@ apiEndpoints:
     paths: ['/vehicles', '/vehicles/:licensePlate/:vehicleType', '/vehicleTypes', '/vehicleTypes/:typeText']
   parkingLot:
     host: localhost
-    paths: ['/parkingStays']
+    paths: ['/parkingStays', '/parkingStays/entrance', '/parkingStays/exit']
 serviceEndpoints:
   httpbin:
     url: 'https://httpbin.org'

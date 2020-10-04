@@ -12,9 +12,12 @@ jest.mock('../dbConnection.js', () => {
     model: process.env.MONGO_PARKING_LOT_TEST,
   };
 
-  const connection = mongoose.createConnection(`mongodb+srv://${dbConnectionInfo.user}:${dbConnectionInfo.password}@cluster0.awfq1.mongodb.net/${dbConnectionInfo.model}`, () => {
-    console.log('Connected to parkingLotTest DB');
-  });
+  const connection = mongoose.createConnection(
+    `mongodb+srv://${dbConnectionInfo.user}:${dbConnectionInfo.password}@cluster0.awfq1.mongodb.net/${dbConnectionInfo.model}`,
+    () => {
+      console.log('Connected to parkingLotTest DB');
+    },
+  );
 
   const ParkingStay = connection.model('ParkingStay', parkingStaySchema);
 
@@ -27,5 +30,17 @@ describe('loading parkingLot service', () => {
   });
   it('get /parkingStays', (done) => {
     request(server).get('/parkingStays').expect(200, done);
+  });
+  it('post /parkingStays/entrance', (done) => {
+    request(server)
+      .get('/parkingStays')
+      .send({ licensePlate: 'licensePlate' })
+      .expect(201, done);
+  });
+  it('put /parkingStays/exit', (done) => {
+    request(server)
+      .get('/parkingStays')
+      .send({ licensePlate: 'licensePlate' })
+      .expect(200, done);
   });
 });

@@ -7,9 +7,13 @@ const dbConnectionInfo = {
   model: process.env.MONGO_PARKING_LOT,
 };
 
-const connection = mongoose.createConnection(`mongodb+srv://${dbConnectionInfo.user}:${dbConnectionInfo.password}@cluster0.awfq1.mongodb.net/${dbConnectionInfo.model}`, () => {
-  console.log('Connected to parkingLot DB');
-});
+const connection = mongoose.createConnection(
+  `mongodb+srv://${dbConnectionInfo.user}:${dbConnectionInfo.password}@cluster0.awfq1.mongodb.net/${dbConnectionInfo.model}`,
+  { useNewUrlParser: true, useUnifiedTopology: true },
+  () => {
+    console.log('Connected to parkingLot DB');
+  },
+);
 
 const ParkingStay = connection.model('ParkingStay', parkingStaySchema);
 

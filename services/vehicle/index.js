@@ -14,6 +14,8 @@ const vehicleTypeController = require('./controllers/vehicleTypeController');
 
 app.get('/vehicles', vehicleController.getAll);
 
+app.get('/vehicles/:licensePlate', vehicleController.findOne);
+
 app.post('/vehicles', vehicleController.createVehicle);
 
 app.put('/vehicles/:licensePlate/:vehicleType', vehicleController.setVehicleType);

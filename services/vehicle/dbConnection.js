@@ -8,9 +8,13 @@ const dbConnectionInfo = {
   model: process.env.MONGO_VEHICLE,
 };
 
-const connection = mongoose.createConnection(`mongodb+srv://${dbConnectionInfo.user}:${dbConnectionInfo.password}@cluster0.awfq1.mongodb.net/${dbConnectionInfo.model}`, () => {
-  console.log('Connected to vehicle DB');
-});
+const connection = mongoose.createConnection(
+  `mongodb+srv://${dbConnectionInfo.user}:${dbConnectionInfo.password}@cluster0.awfq1.mongodb.net/${dbConnectionInfo.model}`,
+  { useNewUrlParser: true, useUnifiedTopology: true },
+  () => {
+    console.log('Connected to vehicle DB');
+  },
+);
 
 const Vehicle = connection.model('Vehicle', vehicleSchema);
 const VehicleType = connection.model('VehicleType', vehicleTypeSchema);
