@@ -71,6 +71,24 @@ const parkingStayController = {
 
     res.status(200).send({ amountToPay: vehicle.vehicleType ? 0 : totalStay * 0.5 });
   },
+  startNewMonth: async (req, res) => {
+    try {
+      await ResidentTime.deleteMany();
+    } catch (error) {
+      res.status(400).send(error);
+      return;
+    }
+    try {
+      await ParkingStay.updateMany(
+        {},
+        { active: false },
+      );
+    } catch (error) {
+      res.status(400).send(error);
+      return;
+    }
+    res.status(200).send();
+  },
 };
 
 module.exports = parkingStayController;

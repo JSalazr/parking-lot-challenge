@@ -15,6 +15,9 @@ jest.mock('../controllers/parkingStayController.js', () => {
     registerExit: async (req, res) => {
       res.status(200).send({ amountToPay: 0 });
     },
+    startNewMonth: async (req, res) => {
+      res.status(200).send();
+    },
   };
 
   return parkingStayController;
@@ -37,6 +40,11 @@ describe('loading parkingLot service', () => {
     request(server)
       .put('/parkingStays/exit')
       .send({ licensePlate: 'licensePlate' })
+      .expect(200, done);
+  });
+  it('put /parkingStays/newMonth', (done) => {
+    request(server)
+      .put('/parkingStays/newMonth')
       .expect(200, done);
   });
 });

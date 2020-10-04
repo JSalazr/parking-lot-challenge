@@ -16,11 +16,13 @@ jest.mock('../dbConnection', () => {
       populate: async () => ({ _id: 0 }),
     }),
     updateOne: async () => ({}),
+    updateMany: async () => {},
   };
 
   const ResidentTime = {
     find: async () => [],
     findOne: async () => ({ _id: 0 }),
+    deleteMany: async () => {},
   };
 
   return { ParkingStay, ResidentTime };
@@ -59,6 +61,10 @@ describe('vehicle Controller', () => {
       },
     };
     await parkingStayController.registerExit(req, res);
+    expect(res.status).toBeCalledWith(200);
+  });
+  it('startNewMonth', async () => {
+    await parkingStayController.startNewMonth({}, res);
     expect(res.status).toBeCalledWith(200);
   });
 });
