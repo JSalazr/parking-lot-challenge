@@ -45,7 +45,8 @@ pipelines:
       - vehicle
     policies:
     # Uncomment `key-auth:` when instructed to in the Getting Started guide.
-    # - key-auth:
+      - key-auth:
+        - disableQueryParam: true
       - proxy:
           - action:
               serviceEndpoint: vehicleService
@@ -55,7 +56,8 @@ pipelines:
       - parkingLot
     policies:
     # Uncomment `key-auth:` when instructed to in the Getting Started guide.
-    # - key-auth:
+      - key-auth:
+        - disableQueryParam: true
       - proxy:
           - action:
               serviceEndpoint: parkingLotService
