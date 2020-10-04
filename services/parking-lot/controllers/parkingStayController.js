@@ -1,39 +1,33 @@
-const axios = require('axios');
 const moment = require('moment');
-const ParkingStay = require('../dbConnection');
+const { ParkingStay, ResidentTime } = require('../dbConnection');
+const { updateResidentTime, findLatestStay, findVehicle } = require('../utils');
 
 const parkingStayController = {
   getAllActive: async (req, res) => {
     res.status(200).json(await ParkingStay.find({ active: true }));
   },
   registerEntrance: async (req, res) => {
-    let existingStay;
-    try {
-      existingStay = await ParkingStay.findOne({ licensePlate: req.body.licensePlate });
-    } catch (error) {
-      res.status(400).send(error);
-    }
-    if (existingStay) {
-      res.status(400).send('Vehicle has an active stay');
+    const existingStay = await findLatestStay(ParkingStay, req.body.licensePlate);
+    if (existingStay && existingStay.error) {
+      res.status(existingStay.status).send(existingStay.error);
       return;
     }
-    let response;
-    try {
-      response = await axios.get(`http://localhost:${process.env.VEHICLE_PORT}/vehicles/${req.body.licensePlate}`);
-    } catch (error) {
-      res.status(400).send(error);
-    }
-    if (!response.data) {
-      res.status(400).send('Vehicle does not exist');
+    if (existingStay && !existingStay.exitDate) {
+      res.status(400).send('Vehicle already has an active stay.');
       return;
     }
-    const newparkingStay = {
+    const vehicle = findVehicle(req.body.licensePlate);
+    if (vehicle.error) {
+      res.status(vehicle.status).send(vehicle.error);
+      return;
+    }
+    const newParkingStay = {
       licensePlate: req.body.licensePlate,
       entranceDate: moment(),
       active: true,
     };
 
-    const parkingStay = new ParkingStay(newparkingStay);
+    const parkingStay = new ParkingStay(newParkingStay);
 
     try {
       await parkingStay.save();
@@ -43,38 +37,36 @@ const parkingStayController = {
     res.status(201).send();
   },
   registerExit: async (req, res) => {
-    let existingStay;
-    try {
-      existingStay = await ParkingStay.findOne({ licensePlate: req.body.licensePlate });
-    } catch (error) {
-      res.status(400).send(error);
-    }
-    if (!existingStay) {
-      res.status(400).send('Vehicle doest not have an active stay');
+    const existingStay = await findLatestStay(ParkingStay, req.body.licensePlate);
+    if (existingStay && existingStay.error) {
+      res.status(existingStay.status).send(existingStay.error);
       return;
     }
-    let vehicle;
-    try {
-      vehicle = (await axios.get(`http://localhost:${process.env.VEHICLE_PORT}/vehicles/${req.body.licensePlate}`)).data;
-    } catch (error) {
-      res.status(400).send(error);
+    if (!existingStay || existingStay.exitDate) {
+      res.status(400).send('Vehicle does not have an active stay.');
+      return;
     }
-    if (!vehicle) {
-      res.status(400).send('Vehicle does not exist');
+    const vehicle = await findVehicle(req.body.licensePlate);
+    if (vehicle.error) {
+      res.status(vehicle.status).send(vehicle.error);
       return;
     }
     const exitDate = moment();
-    const amountToPay = exitDate.diff(moment(existingStay.entranceDate), 'minutes');
+    const totalStay = exitDate.diff(moment(existingStay.entranceDate), 'minutes');
     try {
       await ParkingStay.updateOne(
-        { licensePlate: req.body.licensePlate },
+        { _id: existingStay._id },
         { exitDate },
       );
     } catch (error) {
       res.status(400).send(error);
     }
 
-    res.status(200).send({ amountToPay: vehicle.vehicleType ? 0 : amountToPay });
+    if (vehicle.vehicleType && vehicle.vehicleType.type === 'Resident') {
+      await updateResidentTime(ResidentTime, req.body.licensePlate, totalStay);
+    }
+
+    res.status(200).send({ amountToPay: vehicle.vehicleType ? 0 : totalStay * 0.5 });
   },
 };
 

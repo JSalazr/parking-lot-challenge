@@ -4,7 +4,6 @@ const parkingStay = new mongoose.Schema({
   licensePlate: {
     type: String,
     require: true,
-    unique: true,
   },
   entranceDate: {
     type: Date,

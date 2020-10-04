@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const parkingStaySchema = require('./schemas/parkingStaySchema');
+const residentTimeSchema = require('./schemas/residentTimeSchema');
 
 const dbConnectionInfo = {
   user: process.env.MONGO_USER,
@@ -16,5 +17,6 @@ const connection = mongoose.createConnection(
 );
 
 const ParkingStay = connection.model('ParkingStay', parkingStaySchema);
+const ResidentTime = connection.model('ResidentTime', residentTimeSchema);
 
-module.exports = ParkingStay;
+module.exports = { ParkingStay, ResidentTime };
