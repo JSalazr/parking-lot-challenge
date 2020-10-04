@@ -1,0 +1,16 @@
+const mongoose = require('mongoose');
+const parkingStaySchema = require('./schemas/parkingStaySchema');
+
+const dbConnectionInfo = {
+  user: process.env.MONGO_USER,
+  password: process.env.MONGO_PASSWORD,
+  model: process.env.MONGO_PARKING_LOT,
+};
+
+const connection = mongoose.createConnection(`mongodb+srv://${dbConnectionInfo.user}:${dbConnectionInfo.password}@cluster0.awfq1.mongodb.net/${dbConnectionInfo.model}`, () => {
+  console.log('Connected to parkingLot DB');
+});
+
+const ParkingStay = connection.model('ParkingStay', parkingStaySchema);
+
+module.exports = ParkingStay;

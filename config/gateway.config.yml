@@ -9,12 +9,17 @@ apiEndpoints:
     paths: '/ip'
   vehicle:
     host: localhost
-    paths: ['/vehicles', '/vehicles/:licensePlate/official', '/vehicles/:licensePlate/resident', '/vehicleTypes', '/vehicleTypes/:typeText']
+    paths: ['/vehicles', '/vehicles/:licensePlate/:vehicleType', '/vehicleTypes', '/vehicleTypes/:typeText']
+  parkingLot:
+    host: localhost
+    paths: ['/parkingStays']
 serviceEndpoints:
   httpbin:
     url: 'https://httpbin.org'
   vehicleService:
     url: 'http://localhost:3000'
+  parkingLotService:
+    url: 'http://localhost:3001'
 policies:
   - basic-auth
   - cors
@@ -44,4 +49,14 @@ pipelines:
       - proxy:
           - action:
               serviceEndpoint: vehicleService
+              changeOrigin: 
+  parkingLotPipeline:
+    apiEndpoints:
+      - parkingLot
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - proxy:
+          - action:
+              serviceEndpoint: parkingLotService
               changeOrigin: 

@@ -4,7 +4,7 @@ const gateway = require('express-gateway');
 
 require('dotenv').config();
 require('./services/vehicle');
-// require('./services/vehicleType');
+require('./services/parking-lot');
 
 // mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.awfq1.mongodb.net/default?retryWrites=true&w=majority`, () => {
 //   console.log('Connected to MongoDB');
