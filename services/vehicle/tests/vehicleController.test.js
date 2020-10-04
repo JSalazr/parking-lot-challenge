@@ -10,20 +10,22 @@ const mockResponse = () => {
 };
 
 jest.mock('../dbConnection', () => {
-  const Vehicle = {
-    find: () => ({
-      populate: async () => [],
-    }),
-    findOne: () => ({
-      populate: async () => ({ _id: 0 }),
-    }),
-    updateOne: async () => ({}),
-  };
+  const Vehicle = () => {};
+  Vehicle.find = () => ({
+    populate: async () => [],
+  });
+  Vehicle.findOne = () => ({
+    populate: async () => ({ _id: 0 }),
+  });
+  Vehicle.updateOne = () => ({
+    populate: async () => {},
+  });
+  Vehicle.prototype.save = async () => {};
 
-  const VehicleType = {
-    find: async () => [],
-    findOne: async () => ({ _id: 0 }),
-  };
+  const VehicleType = () => {};
+  VehicleType.find = async () => [];
+  VehicleType.findOne = async () => ({});
+  VehicleType.prototype.save = async () => {};
 
   return { Vehicle, VehicleType };
 });
@@ -43,6 +45,15 @@ describe('vehicle Controller', () => {
     };
     await vehicleController.findOne(req, res);
     expect(res.status).toBeCalledWith(200);
+  });
+  it('createVehicle', async () => {
+    const req = {
+      body: {
+        licensePlate: 'licensePlate',
+      },
+    };
+    await vehicleController.createVehicle(req, res);
+    expect(res.status).toBeCalledWith(201);
   });
   it('setVehicleType', async () => {
     const req = {

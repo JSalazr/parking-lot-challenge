@@ -20,6 +20,7 @@ const vehicleController = {
       await vehicle.save();
     } catch (error) {
       res.status(400).send(error);
+      return;
     }
     res.status(201).send();
   },

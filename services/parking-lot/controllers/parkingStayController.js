@@ -19,7 +19,7 @@ const parkingStayController = {
       res.status(400).send('Vehicle already has an active stay.');
       return;
     }
-    const vehicle = findVehicle(req.body.licensePlate);
+    const vehicle = await findVehicle(req.body.licensePlate);
     if (vehicle.error) {
       res.status(vehicle.status).send(vehicle.error);
       return;
@@ -64,6 +64,7 @@ const parkingStayController = {
       );
     } catch (error) {
       res.status(400).send(error);
+      return;
     }
 
     if (vehicle.vehicleType && vehicle.vehicleType.type === 'Resident') {
@@ -96,6 +97,7 @@ const parkingStayController = {
       residentTimes = await ResidentTime.find();
     } catch (error) {
       res.status(400).send(error);
+      return;
     }
 
     const fields = ['licensePlate', 'time', 'toPay'];
@@ -110,6 +112,7 @@ const parkingStayController = {
       csv = parser.parse(residentTimes);
     } catch (error) {
       res.status(400).send(error);
+      return;
     }
     res.attachment('ResidentReport.csv');
     res.status(200).send(csv);

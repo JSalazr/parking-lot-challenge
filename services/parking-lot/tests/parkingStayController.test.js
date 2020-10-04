@@ -11,20 +11,20 @@ const mockResponse = () => {
 };
 
 jest.mock('../dbConnection', () => {
-  const ParkingStay = {
-    find: async () => [],
-    findOne: () => ({
-      populate: async () => ({ _id: 0 }),
-    }),
-    updateOne: async () => ({}),
-    updateMany: async () => {},
-  };
+  const ParkingStay = () => {};
+  ParkingStay.find = async () => [];
+  ParkingStay.findOne = () => ({
+    populate: async () => ({ _id: 0 }),
+  });
+  ParkingStay.updateOne = async () => ({});
+  ParkingStay.updateMany = async () => {};
+  ParkingStay.prototype.save = async () => {};
 
-  const ResidentTime = {
-    find: async () => [],
-    findOne: async () => ({ _id: 0 }),
-    deleteMany: async () => {},
-  };
+  const ResidentTime = () => {};
+  ResidentTime.find = async () => [];
+  ResidentTime.findOne = async () => ({ _id: 0 });
+  ResidentTime.deleteMany = async () => {};
+  ResidentTime.prototype.save = async () => {};
 
   return { ParkingStay, ResidentTime };
 });
@@ -50,10 +50,19 @@ jest.mock('../utils', () => {
 
 const res = mockResponse();
 
-describe('vehicle Controller', () => {
+describe('parkingStay Controller', () => {
   it('getAllActive', async () => {
     await parkingStayController.getAllActive({}, res);
     expect(res.status).toBeCalledWith(200);
+  });
+  it('registerEntrance', async () => {
+    const req = {
+      body: {
+        licensePlate: 'licensePlate',
+      },
+    };
+    await parkingStayController.registerEntrance(req, res);
+    expect(res.status).toBeCalledWith(400);
   });
   it('registerExit', async () => {
     const req = {
