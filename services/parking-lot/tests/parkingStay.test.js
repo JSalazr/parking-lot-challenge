@@ -2,26 +2,22 @@
 const request = require('supertest');
 const server = require('../index');
 
-jest.mock('../dbConnection.js', () => {
-  const mongoose = require('mongoose');
-  const parkingStaySchema = require('../schemas/parkingStaySchema');
-
-  const dbConnectionInfo = {
-    user: process.env.MONGO_USER,
-    password: process.env.MONGO_PASSWORD,
-    model: process.env.MONGO_PARKING_LOT_TEST,
+jest.mock('../controllers/parkingStayController.js', () => {
+  require('regenerator-runtime/runtime');
+  require('core-js/stable');
+  const parkingStayController = {
+    getAllActive: async (req, res) => {
+      res.status(200).json([]);
+    },
+    registerEntrance: async (req, res) => {
+      res.status(201).send();
+    },
+    registerExit: async (req, res) => {
+      res.status(200).send({ amountToPay: 0 });
+    },
   };
 
-  const connection = mongoose.createConnection(
-    `mongodb+srv://${dbConnectionInfo.user}:${dbConnectionInfo.password}@cluster0.awfq1.mongodb.net/${dbConnectionInfo.model}`,
-    () => {
-      console.log('Connected to parkingLotTest DB');
-    },
-  );
-
-  const ParkingStay = connection.model('ParkingStay', parkingStaySchema);
-
-  return ParkingStay;
+  return parkingStayController;
 });
 
 describe('loading parkingLot service', () => {
@@ -33,13 +29,13 @@ describe('loading parkingLot service', () => {
   });
   it('post /parkingStays/entrance', (done) => {
     request(server)
-      .get('/parkingStays')
+      .post('/parkingStays/entrance')
       .send({ licensePlate: 'licensePlate' })
       .expect(201, done);
   });
   it('put /parkingStays/exit', (done) => {
     request(server)
-      .get('/parkingStays')
+      .put('/parkingStays/exit')
       .send({ licensePlate: 'licensePlate' })
       .expect(200, done);
   });

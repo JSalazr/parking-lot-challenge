@@ -1,3 +1,5 @@
+require('regenerator-runtime/runtime');
+require('core-js/stable');
 const { VehicleType } = require('../dbConnection');
 
 const vehicleTypeController = {
@@ -17,7 +19,6 @@ const vehicleTypeController = {
     };
 
     const vehicleType = new VehicleType(newVehicleType);
-
     try {
       await vehicleType.save();
     } catch (error) {

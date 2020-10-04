@@ -1,3 +1,5 @@
+require('regenerator-runtime/runtime');
+require('core-js/stable');
 const moment = require('moment');
 const { ParkingStay, ResidentTime } = require('../dbConnection');
 const { updateResidentTime, findLatestStay, findVehicle } = require('../utils');
@@ -33,6 +35,7 @@ const parkingStayController = {
       await parkingStay.save();
     } catch (error) {
       res.status(400).send(error);
+      return;
     }
     res.status(201).send();
   },

@@ -1,7 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-require('regenerator-runtime/runtime');
-require('core-js/stable');
-
 // Express
 const express = require('express');
 

@@ -1,3 +1,5 @@
+require('regenerator-runtime/runtime');
+require('core-js/stable');
 const axios = require('axios');
 
 const updateResidentTime = async (ResidentTime, licensePlate, timeToAdd) => {
