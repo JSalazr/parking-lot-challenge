@@ -18,21 +18,9 @@ const vehicleController = {
     }
     res.status(201).send();
   },
-  setVehicleAsOfficial: async (req, res) => {
+  setVehicleType: async (req, res) => {
     try {
-      const vehicleType = await VehicleType.findOne({ type: 'Official' });
-      await Vehicle.updateOne(
-        { licensePlate: req.params.licensePlate },
-        { vehicleType: vehicleType._id },
-      );
-    } catch (error) {
-      res.status(400).send(error);
-    }
-    res.status(200).send();
-  },
-  setVehicleAsResident: async (req, res) => {
-    try {
-      const vehicleType = await VehicleType.findOne({ type: 'Resident' });
+      const vehicleType = await VehicleType.findOne({ type: req.params.vehicleType });
       await Vehicle.updateOne(
         { licensePlate: req.params.licensePlate },
         { vehicleType: vehicleType._id },

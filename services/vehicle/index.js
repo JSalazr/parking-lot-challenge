@@ -16,9 +16,7 @@ app.get('/vehicles', vehicleController.getAll);
 
 app.post('/vehicles', vehicleController.createVehicle);
 
-app.put('/vehicles/:licensePlate/official', vehicleController.setVehicleAsOfficial);
-
-app.put('/vehicles/:licensePlate/resident', vehicleController.setVehicleAsResident);
+app.put('/vehicles/:licensePlate/:vehicleType', vehicleController.setVehicleType);
 
 app.get('/vehicleTypes', vehicleTypeController.getAll);
 

@@ -35,10 +35,7 @@ describe('loading vehicle service', () => {
       licensePlate: 'licensePlate',
     }).expect(201, done);
   });
-  it('put /vehicles/:licensePlate/official', (done) => {
+  it('put /vehicles/:licensePlate/:vehicleType', (done) => {
     request(server).put('/vehicles/licensePlate/official').expect(200, done);
-  });
-  it('put /vehicles/:licensePlate/resident', (done) => {
-    request(server).put('/vehicles/licensePlate/resident').expect(200, done);
   });
 });
