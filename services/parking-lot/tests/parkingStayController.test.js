@@ -45,7 +45,11 @@ jest.mock('../utils', () => {
       type: 'Official',
     },
   });
-  return { updateResidentTime, findLatestStay, findVehicle };
+
+  const getValuesForResidentReport = async () => [];
+  return {
+    updateResidentTime, findLatestStay, findVehicle, getValuesForResidentReport,
+  };
 });
 
 const res = mockResponse();

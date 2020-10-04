@@ -1,5 +1,7 @@
 /* eslint-disable global-require */
-const { updateResidentTime, findLatestStay, findVehicle } = require('../utils');
+const {
+  updateResidentTime, findLatestStay, findVehicle, getValuesForResidentReport,
+} = require('../utils');
 
 const ParkingStay = {
   find: async () => [],
@@ -33,5 +35,10 @@ describe('utils', () => {
     const licensePlate = 'plate';
     const vehicle = await findVehicle(licensePlate);
     expect(vehicle.status).toBe(400);
+  });
+
+  it('getValuesForResidentReport', async () => {
+    const residentTimes = await getValuesForResidentReport(ResidentTime);
+    expect(residentTimes.length).toBe(0);
   });
 });

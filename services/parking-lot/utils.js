@@ -45,4 +45,20 @@ const findVehicle = async (licensePlate) => {
   return response.data;
 };
 
-module.exports = { updateResidentTime, findLatestStay, findVehicle };
+const getValuesForResidentReport = async (ResidentTime) => {
+  let residentTimes;
+  try {
+    residentTimes = await ResidentTime.find();
+  } catch (error) {
+    return { status: 400, error };
+  }
+  residentTimes = residentTimes.map((residentTime) => ({
+    ...residentTime._doc,
+    toPay: residentTime.time * 0.05,
+  }));
+  return residentTimes;
+};
+
+module.exports = {
+  updateResidentTime, findLatestStay, findVehicle, getValuesForResidentReport,
+};
