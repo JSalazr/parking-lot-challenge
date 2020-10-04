@@ -9,10 +9,10 @@ apiEndpoints:
     paths: '/ip'
   vehicle:
     host: localhost
-    paths: ['/vehicles']
+    paths: ['/vehicles', '/vehicleTypes', '/vehicleTypes/:typeText']
   vehicleType:
     host: localhost
-    paths: ['/vehicleTypes', '/vehicleTypes/:typeText']
+    paths: []
 serviceEndpoints:
   httpbin:
     url: 'https://httpbin.org'
