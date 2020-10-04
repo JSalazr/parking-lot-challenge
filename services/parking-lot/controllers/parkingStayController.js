@@ -1,6 +1,7 @@
 require('regenerator-runtime/runtime');
 require('core-js/stable');
 const moment = require('moment');
+const { Parser } = require('json2csv');
 const { ParkingStay, ResidentTime } = require('../dbConnection');
 const { updateResidentTime, findLatestStay, findVehicle } = require('../utils');
 
@@ -88,6 +89,30 @@ const parkingStayController = {
       return;
     }
     res.status(200).send();
+  },
+  generateReport: async (req, res) => {
+    let residentTimes;
+    try {
+      residentTimes = await ResidentTime.find();
+    } catch (error) {
+      res.status(400).send(error);
+    }
+
+    const fields = ['licensePlate', 'time', 'toPay'];
+    const opts = { fields };
+    residentTimes = residentTimes.map((residentTime) => ({
+      ...residentTime._doc,
+      toPay: residentTime.time * 0.05,
+    }));
+    let csv;
+    try {
+      const parser = new Parser(opts);
+      csv = parser.parse(residentTimes);
+    } catch (error) {
+      res.status(400).send(error);
+    }
+    res.attachment('ResidentReport.csv');
+    res.status(200).send(csv);
   },
 };
 

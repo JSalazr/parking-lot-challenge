@@ -14,6 +14,9 @@ app.post('/parkingStays/entrance', parkingStaysController.registerEntrance);
 app.put('/parkingStays/exit', parkingStaysController.registerExit);
 
 app.put('/parkingStays/newMonth', parkingStaysController.startNewMonth);
+
+app.get('/parkingStays/residentReport', parkingStaysController.generateReport);
+
 const server = app.listen(3001, () => {
   console.log('ParkingLot service up and running');
 });

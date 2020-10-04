@@ -6,6 +6,7 @@ const mockResponse = () => {
   res.status = jest.fn().mockReturnValue(res);
   res.json = jest.fn().mockReturnValue(res);
   res.send = jest.fn().mockReturnValue(res);
+  res.attachment = jest.fn().mockReturnValue(res);
   return res;
 };
 
@@ -65,6 +66,10 @@ describe('vehicle Controller', () => {
   });
   it('startNewMonth', async () => {
     await parkingStayController.startNewMonth({}, res);
+    expect(res.status).toBeCalledWith(200);
+  });
+  it('generateReport', async () => {
+    await parkingStayController.generateReport({}, res);
     expect(res.status).toBeCalledWith(200);
   });
 });
