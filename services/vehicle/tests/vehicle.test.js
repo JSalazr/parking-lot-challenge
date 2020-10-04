@@ -5,6 +5,7 @@ const server = require('../index');
 jest.mock('../dbConnection.js', () => {
   const mongoose = require('mongoose');
   const vehicleSchema = require('../schemas/vehicleSchema');
+  const vehicleTypeSchema = require('../schemas/vehicleTypeSchema');
 
   const dbConnectionInfo = {
     user: process.env.MONGO_USER,
@@ -13,11 +14,11 @@ jest.mock('../dbConnection.js', () => {
   };
 
   const connection = mongoose.createConnection(`mongodb+srv://${dbConnectionInfo.user}:${dbConnectionInfo.password}@cluster0.awfq1.mongodb.net/${dbConnectionInfo.model}`, () => {
-    console.log('Connected to Vehicle DB');
+    console.log('Connected to vehicle DB');
   });
 
-  const Vehicle = connection.model('VehicleTest', vehicleSchema);
-  const VehicleType = connection.model('VehicleTypeTest', vehicleSchema);
+  const Vehicle = connection.model('Vehicle', vehicleSchema);
+  const VehicleType = connection.model('VehicleType', vehicleTypeSchema);
 
   return { Vehicle, VehicleType };
 });
@@ -31,7 +32,13 @@ describe('loading vehicle service', () => {
   });
   it('post /vehicles', (done) => {
     request(server).post('/vehicles').send({
-      licensePlate: 'test licencePlate',
+      licensePlate: 'licensePlate',
     }).expect(201, done);
+  });
+  it('put /vehicles/:licensePlate/official', (done) => {
+    request(server).put('/vehicles/licensePlate/official').expect(200, done);
+  });
+  it('put /vehicles/:licensePlate/resident', (done) => {
+    request(server).put('/vehicles/licensePlate/resident').expect(200, done);
   });
 });

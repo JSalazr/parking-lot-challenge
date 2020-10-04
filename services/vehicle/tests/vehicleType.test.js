@@ -5,6 +5,7 @@ const server = require('../index');
 jest.mock('../dbConnection.js', () => {
   const mongoose = require('mongoose');
   const vehicleSchema = require('../schemas/vehicleSchema');
+  const vehicleTypeSchema = require('../schemas/vehicleTypeSchema');
 
   const dbConnectionInfo = {
     user: process.env.MONGO_USER,
@@ -17,7 +18,7 @@ jest.mock('../dbConnection.js', () => {
   });
 
   const Vehicle = connection.model('VehicleTest', vehicleSchema);
-  const VehicleType = connection.model('VehicleTypeTest', vehicleSchema);
+  const VehicleType = connection.model('VehicleTypeTest', vehicleTypeSchema);
 
   return { Vehicle, VehicleType };
 });
