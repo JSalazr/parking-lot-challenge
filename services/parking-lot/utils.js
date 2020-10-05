@@ -14,7 +14,7 @@ const updateResidentTime = async (ResidentTime, licensePlate, timeToAdd) => {
     time: previousTime ? previousTime.time + timeToAdd : timeToAdd,
   };
   try {
-    await ResidentTime.update({ licensePlate }, newResidentTime, { upsert: true });
+    await ResidentTime.updateOne({ licensePlate }, newResidentTime, { upsert: true });
   } catch (error) {
     return { status: 400, error };
   }
@@ -35,7 +35,7 @@ const findLatestStay = async (ParkingStay, licensePlate) => {
 const findVehicle = async (licensePlate) => {
   let response;
   try {
-    response = await axios.get(`http://localhost:${process.env.VEHICLE_PORT}/vehicles/${licensePlate}`);
+    response = await axios.get(`http://localhost:3000/vehicles/${licensePlate}`);
   } catch (error) {
     return { status: 400, error };
   }

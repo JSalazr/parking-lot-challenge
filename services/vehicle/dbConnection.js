@@ -3,13 +3,12 @@ const vehicleSchema = require('./schemas/vehicleSchema');
 const vehicleTypeSchema = require('./schemas/vehicleTypeSchema');
 
 const dbConnectionInfo = {
-  user: process.env.MONGO_USER,
-  password: process.env.MONGO_PASSWORD,
+  connectionString: process.env.MONGO_CONNECTION_STRING,
   model: process.env.MONGO_VEHICLE,
 };
 
 const connection = mongoose.createConnection(
-  `mongodb+srv://${dbConnectionInfo.user}:${dbConnectionInfo.password}@cluster0.awfq1.mongodb.net/${dbConnectionInfo.model}`,
+  `${dbConnectionInfo.connectionString}/${dbConnectionInfo.model}`,
   { useNewUrlParser: true, useUnifiedTopology: true },
   () => {
     console.log('Connected to vehicle DB');
