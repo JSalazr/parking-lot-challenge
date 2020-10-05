@@ -24,9 +24,9 @@ Al crear un usuario se consigue un `keyId` y un `keySecret`. Para que la autenti
 
 # Arquitectura
 La aplicación como tal esta divida en tres partes:
-- API Gateway:
+- **API Gateway:**
   - Como se mencionó anteriormente, esta parte la aplicación fue creada con [Express-Gateway](https://expressjs.com/). Esta parte de la aplicación es la que se encarga de la autenticación. 
-- Microservicio de Vehículos
+- **Microservicio de Vehículos:**
   - Este servicio contiene la información de los vehículos al igual de que tipo son.
   - Modelos:
     - Vehicles - Contiene información de los vehículos.
@@ -39,8 +39,8 @@ La aplicación como tal esta divida en tres partes:
     - GET `/vehicleTypes` - Obtener lista de tipos de vehículos.
     - GET `/vehicleTypes/:typeText` - Buscar un tipo de vehículo.
     - POST `/vehicleTypes` - Crear un nuevo tipo de vehículo.
-- Microservicio de Parking Lot
-  - Este servicio contiene la el registro de todos los vehiculos que se estacionan.
+- **Microservicio de Parking Lot:**
+  - Este servicio contiene el registro de todos los vehiculos que se estacionan.
   - Modelos:
     - ParkingStay - Contiene el registro de todos los vehiculos estacionados.
     - ResidentTime - Contiene la estadía en minutos de cada vehículo residente del presente mes.
